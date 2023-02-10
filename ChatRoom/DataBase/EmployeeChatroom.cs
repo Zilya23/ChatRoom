@@ -12,18 +12,13 @@ namespace ChatRoom.DataBase
     using System;
     using System.Collections.Generic;
     
-    public partial class Departament
+    public partial class EmployeeChatroom
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Departament()
-        {
-            this.Employee = new HashSet<Employee>();
-        }
-    
         public int ID { get; set; }
-        public string Name { get; set; }
+        public Nullable<int> IDChatroom { get; set; }
+        public Nullable<int> IDEmployee { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employee { get; set; }
+        public virtual Chatroom Chatroom { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

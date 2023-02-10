@@ -29,6 +29,7 @@ namespace ChatRoom.Pages
             InitializeComponent();
 
             Departaments = BDConnection.connection.Departament.ToList();
+            (App.Current.MainWindow as MainWindow).Title = Title;
 
             DataContext= this;
         }

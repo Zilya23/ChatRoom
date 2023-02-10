@@ -11,14 +11,14 @@ namespace ChatRoom.DataBase
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-
+    
     public partial class Chatroom
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Chatroom()
         {
             this.ChatMessage = new HashSet<ChatMessage>();
+            this.EmployeeChatroom = new HashSet<EmployeeChatroom>();
         }
     
         public int ID { get; set; }
@@ -26,12 +26,7 @@ namespace ChatRoom.DataBase
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChatMessage> ChatMessage { get; set; }
-
-
-    }
-
-    public partial class Chatroom
-    {
-        public DateTime LastChatMessage => ChatMessage.Max(x => (DateTime)x.Date);
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeChatroom> EmployeeChatroom { get; set; }
     }
 }

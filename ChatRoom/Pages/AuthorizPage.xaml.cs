@@ -21,9 +21,11 @@ namespace ChatRoom.Pages
     /// </summary>
     public partial class AuthorizPage : Page
     {
+        public static Employee userExsist = new Employee();
         public AuthorizPage()
         {
             InitializeComponent();
+            (App.Current.MainWindow as MainWindow).Title = Title;
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
@@ -31,7 +33,7 @@ namespace ChatRoom.Pages
             List<Employee> users = new List<Employee>(BDConnection.connection.Employee.ToList());
             string login = tbUsername.Text.Trim();
             string password = tbPassword.Text.Trim();
-            var userExsist = users.Where(user => user.Username == login && user.Password == password).FirstOrDefault();
+            userExsist = users.Where(user => user.Username == login && user.Password == password).FirstOrDefault();
             if (userExsist != null)
             {
                 NavigationService.Navigate(new MainChatPage(userExsist));

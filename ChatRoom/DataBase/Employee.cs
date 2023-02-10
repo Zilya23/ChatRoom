@@ -18,6 +18,7 @@ namespace ChatRoom.DataBase
         public Employee()
         {
             this.ChatMessage = new HashSet<ChatMessage>();
+            this.EmployeeChatroom = new HashSet<EmployeeChatroom>();
         }
     
         public int ID { get; set; }
@@ -29,5 +30,7 @@ namespace ChatRoom.DataBase
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChatMessage> ChatMessage { get; set; }
         public virtual Departament Departament { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeeChatroom> EmployeeChatroom { get; set; }
     }
 }

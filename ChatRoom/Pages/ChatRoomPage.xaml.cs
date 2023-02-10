@@ -23,6 +23,7 @@ namespace ChatRoom.Pages
         public ChatRoomPage()
         {
             InitializeComponent();
+            (App.Current.MainWindow as MainWindow).Title = Title;
         }
     }
 }

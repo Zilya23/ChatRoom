@@ -29,8 +29,7 @@ namespace ChatRoom.DataBase
         public virtual DbSet<Chatroom> Chatroom { get; set; }
         public virtual DbSet<Departament> Departament { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
+        public virtual DbSet<EmployeeChatroom> EmployeeChatroom { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-
-        
     }
 }

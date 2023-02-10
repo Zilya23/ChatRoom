@@ -42,7 +42,8 @@
                       Grid.Row="3" Grid.RowSpan="4"
                       Margin="20, 0">
             <ListView x:Name="lvChat" 
-                      ItemsSource="{Binding chatrooms}">
+                      ItemsSource="{Binding chatrooms}"
+                      SelectionChanged="lvChat_SelectionChanged">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Topic" DisplayMemberBinding="{Binding Topic}" Width="400"/>

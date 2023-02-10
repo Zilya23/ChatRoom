@@ -39,13 +39,14 @@
           <Property Name="Username" Type="varchar" MaxLength="20" />
           <Property Name="Password" Type="varchar" MaxLength="20" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6013: Первичный ключ в таблице или представлении "ChatRoom.dbo.EmployeeChatroom" не определен, его не удалось вывести. Эта таблица или представление исключены. Чтобы использовать сущность, необходимо проверить схему, добавить правильные ключи и раскомментировать ее.
         <EntityType Name="EmployeeChatroom">
-          <Property Name="ID" Type="int" />
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IDChatroom" Type="int" />
           <Property Name="IDEmployee" Type="int" />
-        </EntityType>-->
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -92,17 +93,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Ошибки, обнаруженные при создании:
-ошибка 6004: Невозможно найти таблицу "ChatRoom.dbo.EmployeeChatroom", на которую ссылается связь.
-        <Association Name="FK_EmployeeChatroom_Chatroom" />-->
-        <!--Ошибки, обнаруженные при создании:
-ошибка 6004: Невозможно найти таблицу "ChatRoom.dbo.EmployeeChatroom", на которую ссылается связь.
-        <Association Name="FK_EmployeeChatroom_Employee" />-->
+        <Association Name="FK_EmployeeChatroom_Chatroom">
+          <End Role="Chatroom" Type="Self.Chatroom" Multiplicity="0..1" />
+          <End Role="EmployeeChatroom" Type="Self.EmployeeChatroom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chatroom">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EmployeeChatroom">
+              <PropertyRef Name="IDChatroom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeChatroom_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="EmployeeChatroom" Type="Self.EmployeeChatroom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EmployeeChatroom">
+              <PropertyRef Name="IDEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище ChatRoomModelContainer">
           <EntitySet Name="ChatMessage" EntityType="Self.ChatMessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Chatroom" EntityType="Self.Chatroom" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departament" EntityType="Self.Departament" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeChatroom" EntityType="Self.EmployeeChatroom" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ChatMessage_Chatroom" Association="Self.FK_ChatMessage_Chatroom">
             <End Role="Chatroom" EntitySet="Chatroom" />
@@ -116,6 +136,14 @@
             <End Role="Departament" EntitySet="Departament" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
+          <AssociationSet Name="FK_EmployeeChatroom_Chatroom" Association="Self.FK_EmployeeChatroom_Chatroom">
+            <End Role="Chatroom" EntitySet="Chatroom" />
+            <End Role="EmployeeChatroom" EntitySet="EmployeeChatroom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeChatroom_Employee" Association="Self.FK_EmployeeChatroom_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeChatroom" EntitySet="EmployeeChatroom" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -126,6 +154,7 @@
           <EntitySet Name="Chatroom" EntityType="ChatRoomModel.Chatroom" />
           <EntitySet Name="Departament" EntityType="ChatRoomModel.Departament" />
           <EntitySet Name="Employee" EntityType="ChatRoomModel.Employee" />
+          <EntitySet Name="EmployeeChatroom" EntityType="ChatRoomModel.EmployeeChatroom" />
           <EntitySet Name="sysdiagrams" EntityType="ChatRoomModel.sysdiagrams" />
           <AssociationSet Name="FK_ChatMessage_Chatroom" Association="ChatRoomModel.FK_ChatMessage_Chatroom">
             <End Role="Chatroom" EntitySet="Chatroom" />
@@ -135,9 +164,17 @@
             <End Role="Employee" EntitySet="Employee" />
             <End Role="ChatMessage" EntitySet="ChatMessage" />
           </AssociationSet>
+          <AssociationSet Name="FK_EmployeeChatroom_Chatroom" Association="ChatRoomModel.FK_EmployeeChatroom_Chatroom">
+            <End Role="Chatroom" EntitySet="Chatroom" />
+            <End Role="EmployeeChatroom" EntitySet="EmployeeChatroom" />
+          </AssociationSet>
           <AssociationSet Name="FK_Employee_Departament" Association="ChatRoomModel.FK_Employee_Departament">
             <End Role="Departament" EntitySet="Departament" />
             <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeChatroom_Employee" Association="ChatRoomModel.FK_EmployeeChatroom_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeChatroom" EntitySet="EmployeeChatroom" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ChatMessage">
@@ -159,6 +196,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Topic" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ChatMessage" Relationship="ChatRoomModel.FK_ChatMessage_Chatroom" FromRole="Chatroom" ToRole="ChatMessage" />
+          <NavigationProperty Name="EmployeeChatroom" Relationship="ChatRoomModel.FK_EmployeeChatroom_Chatroom" FromRole="Chatroom" ToRole="EmployeeChatroom" />
         </EntityType>
         <EntityType Name="Departament">
           <Key>
@@ -179,6 +217,17 @@
           <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ChatMessage" Relationship="ChatRoomModel.FK_ChatMessage_Employee" FromRole="Employee" ToRole="ChatMessage" />
           <NavigationProperty Name="Departament" Relationship="ChatRoomModel.FK_Employee_Departament" FromRole="Employee" ToRole="Departament" />
+          <NavigationProperty Name="EmployeeChatroom" Relationship="ChatRoomModel.FK_EmployeeChatroom_Employee" FromRole="Employee" ToRole="EmployeeChatroom" />
+        </EntityType>
+        <EntityType Name="EmployeeChatroom">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDChatroom" Type="Int32" />
+          <Property Name="IDEmployee" Type="Int32" />
+          <NavigationProperty Name="Chatroom" Relationship="ChatRoomModel.FK_EmployeeChatroom_Chatroom" FromRole="EmployeeChatroom" ToRole="Chatroom" />
+          <NavigationProperty Name="Employee" Relationship="ChatRoomModel.FK_EmployeeChatroom_Employee" FromRole="EmployeeChatroom" ToRole="Employee" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -214,6 +263,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EmployeeChatroom_Chatroom">
+          <End Type="ChatRoomModel.Chatroom" Role="Chatroom" Multiplicity="0..1" />
+          <End Type="ChatRoomModel.EmployeeChatroom" Role="EmployeeChatroom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chatroom">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EmployeeChatroom">
+              <PropertyRef Name="IDChatroom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Employee_Departament">
           <End Type="ChatRoomModel.Departament" Role="Departament" Multiplicity="0..1" />
           <End Type="ChatRoomModel.Employee" Role="Employee" Multiplicity="*" />
@@ -226,7 +287,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_EmployeeChatroom_Employee">
+          <End Type="ChatRoomModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="ChatRoomModel.EmployeeChatroom" Role="EmployeeChatroom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EmployeeChatroom">
+              <PropertyRef Name="IDEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -266,6 +339,15 @@
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="DepartamentID" ColumnName="DepartamentID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeChatroom">
+            <EntityTypeMapping TypeName="ChatRoomModel.EmployeeChatroom">
+              <MappingFragment StoreEntitySet="EmployeeChatroom">
+                <ScalarProperty Name="IDEmployee" ColumnName="IDEmployee" />
+                <ScalarProperty Name="IDChatroom" ColumnName="IDChatroom" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

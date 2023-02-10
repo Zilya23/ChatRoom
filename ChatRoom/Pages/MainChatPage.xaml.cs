@@ -27,6 +27,7 @@ namespace ChatRoom.Pages
             InitializeComponent();
             tbHello.Text = tbHello.Text + employee.Name + "!";
             chatrooms = BDConnection.connection.Chatroom.ToList();
+            (App.Current.MainWindow as MainWindow).Title = Title;
             DataContext = this;
         }
 
@@ -38,6 +39,15 @@ namespace ChatRoom.Pages
         private void btnCloseApp_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void lvChat_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(lvChat.SelectedItem != null)
+            {
+                var item = lvChat.SelectedItem as Chatroom;
+                NavigationService.Navigate(new ReadingChatPage(item));
+            }
         }
     }
 }
