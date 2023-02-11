@@ -54,7 +54,8 @@
         <ScrollViewer Grid.Column="1"
                   Grid.Row="1" Grid.RowSpan="8">
             <ListView x:Name="lvEmployee"
-                      ItemsSource="{Binding Employees}">
+                      ItemsSource="{Binding Employees}"
+                      SelectionChanged="lvEmployee_SelectionChanged">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding Name}"/>

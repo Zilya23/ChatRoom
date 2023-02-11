@@ -23,13 +23,15 @@ namespace ChatRoom.Pages
     {
         public List<Departament> Departaments { get; set; }
         public List<Employee> Employees = new List<Employee>();
+        public Chatroom ChatroomNow = null;
 
-        public EmployeeFinderPage()
+        public EmployeeFinderPage(Chatroom chatroom)
         {
             InitializeComponent();
 
             Departaments = BDConnection.connection.Departament.ToList();
             (App.Current.MainWindow as MainWindow).Title = Title;
+            ChatroomNow = chatroom; 
 
             DataContext= this;
         }
@@ -64,6 +66,30 @@ namespace ChatRoom.Pages
         private void cbDepartament_Checked(object sender, RoutedEventArgs e)
         {
             Filter();
+        }
+
+        private void lvEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(lvEmployee.SelectedItem != null)
+            {
+                var item = lvEmployee.SelectedItem as Employee;
+                EmployeeChatroom chatroom = new EmployeeChatroom();
+                chatroom.IDEmployee = item.ID;
+                chatroom.IDChatroom = ChatroomNow.ID;
+
+                var uniqUser = BDConnection.connection.EmployeeChatroom.Where(x => x.IDChatroom == chatroom.ID && x.IDEmployee == chatroom.IDEmployee).FirstOrDefault();
+                if(uniqUser == null)
+                {
+                    BDConnection.connection.EmployeeChatroom.Add(chatroom);
+                    BDConnection.connection.SaveChanges();
+
+                    NavigationService.Navigate(new ReadingChatPage(ChatroomNow, null));
+                }
+                else
+                {
+                    MessageBox.Show("Этот пользователь уже в чате");
+                }
+            }
         }
     }
 }

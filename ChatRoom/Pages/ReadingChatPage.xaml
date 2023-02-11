@@ -55,7 +55,8 @@
                 Grid.Column="0"
                 Grid.Row="7"
                 BorderBrush="Black"
-                BorderThickness="3"/>
+                BorderThickness="3"
+                Click="btnAddUser_Click"/>
         <Button x:Name="btnChangeTopic"
                 Content="Change Topic"
                 Grid.Column="0"

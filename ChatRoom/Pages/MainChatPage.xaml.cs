@@ -33,12 +33,11 @@ namespace ChatRoom.Pages
 
         private void btnEmpSearch_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new EmployeeFinderPage());
+            NavigationService.Navigate(new EmployeeFinderPage(null));
         }
 
         private void btnCloseApp_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void lvChat_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -46,7 +45,7 @@ namespace ChatRoom.Pages
             if(lvChat.SelectedItem != null)
             {
                 var item = lvChat.SelectedItem as Chatroom;
-                NavigationService.Navigate(new ReadingChatPage(item));
+                NavigationService.Navigate(new ReadingChatPage(item, null));
             }
         }
     }

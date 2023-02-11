@@ -24,7 +24,7 @@ namespace ChatRoom.Pages
         public List<ChatMessage> ChatMessages { get; set; }
         public List<EmployeeChatroom> EmployeeChatrooms { get; set; }
         public Chatroom Chatroom { get; set; }
-        public ReadingChatPage(Chatroom chatRoom)
+        public ReadingChatPage(Chatroom chatRoom, Employee employee)
         {
             InitializeComponent();
             (App.Current.MainWindow as MainWindow).Title = chatRoom.Topic;
@@ -40,7 +40,7 @@ namespace ChatRoom.Pages
             if(tbChat.Text.Trim().Length != 0)
             {
                 ChatMessage message = new ChatMessage();
-                message.SenderID = AuthorizPage.userExsist.ID;
+                message.SenderID = AuthorizPage.userExsist.ID;  
                 message.ChatroomID = Chatroom.ID;
                 message.Date= DateTime.Now;
                 message.Message = tbChat.Text.Trim();
@@ -55,6 +55,11 @@ namespace ChatRoom.Pages
 
                 tbChat.Text = "";
             }
+        }
+
+        private void btnAddUser_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new EmployeeFinderPage(Chatroom));
         }
     }
 }

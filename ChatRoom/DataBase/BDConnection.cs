@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChatRoom.DataBase
 {
-    public class BDConnection
+    public static class BDConnection
     {
         public static ChatRoomEntities connection = new ChatRoomEntities(); 
     }
