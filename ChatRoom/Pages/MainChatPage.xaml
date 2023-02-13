@@ -43,6 +43,8 @@
                       Margin="20, 0">
             <ListView x:Name="lvChat" 
                       ItemsSource="{Binding chatrooms}"
+                      BorderBrush="Black"
+                      BorderThickness="3"
                       SelectionChanged="lvChat_SelectionChanged">
                 <ListView.View>
                     <GridView>
@@ -58,6 +60,8 @@
                 Grid.Column="0"
                 Grid.Row="8"
                 VerticalAlignment="Top"
+                BorderBrush="Black"
+                BorderThickness="3"
                 HorizontalAlignment="Left"
                 Margin="20, 0"
                 FontSize="20"
@@ -66,6 +70,8 @@
                 Content=" Close Application "
                 Grid.Column="1"
                 Grid.Row="8"
+                BorderBrush="Black"
+                BorderThickness="3"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Right"
                 Margin="20, 0"

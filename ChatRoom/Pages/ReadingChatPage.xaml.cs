@@ -24,7 +24,7 @@ namespace ChatRoom.Pages
         public List<ChatMessage> ChatMessages { get; set; }
         public List<EmployeeChatroom> EmployeeChatrooms { get; set; }
         public Chatroom Chatroom { get; set; }
-        public ReadingChatPage(Chatroom chatRoom, Employee employee)
+        public ReadingChatPage(Chatroom chatRoom)
         {
             InitializeComponent();
             (App.Current.MainWindow as MainWindow).Title = chatRoom.Topic;
@@ -60,6 +60,33 @@ namespace ChatRoom.Pages
         private void btnAddUser_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new EmployeeFinderPage(Chatroom));
+        }
+
+        private void btnLeaveChatroom_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeChatroom chatroom = BDConnection.connection.EmployeeChatroom.Where(x=> x.IDChatroom == Chatroom.ID 
+            && x.IDEmployee == AuthorizPage.userExsist.ID).FirstOrDefault();
+
+            if (chatroom != null)
+            {
+                BDConnection.connection.EmployeeChatroom.Remove(chatroom);
+                BDConnection.connection.SaveChanges();
+                NavigationService.Navigate(new MainChatPage(AuthorizPage.userExsist));
+            }
+            else
+            {
+                MessageBox.Show("You not be in this chat");
+            }
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new MainChatPage(AuthorizPage.userExsist));
+        }
+
+        private void btnChangeTopic_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new NewTitlePage(null, Chatroom));
         }
     }
 }

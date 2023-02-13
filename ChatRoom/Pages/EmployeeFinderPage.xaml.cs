@@ -24,11 +24,13 @@ namespace ChatRoom.Pages
         public List<Departament> Departaments { get; set; }
         public List<Employee> Employees = new List<Employee>();
         public Chatroom ChatroomNow = null;
+        public static List<Employee> EmployeesNewChat {get; set; }
 
         public EmployeeFinderPage(Chatroom chatroom)
         {
             InitializeComponent();
 
+            EmployeesNewChat = new List<Employee>();
             Departaments = BDConnection.connection.Departament.ToList();
             (App.Current.MainWindow as MainWindow).Title = Title;
             ChatroomNow = chatroom; 
@@ -55,6 +57,8 @@ namespace ChatRoom.Pages
                     Employees.AddRange(item.Employee);
             }
 
+            Employees.Remove(AuthorizPage.userExsist);
+
             if (tbSearch.Text.Trim().Length != 0)
             {
                 Employees = Employees.Where(x => x.Name.Contains(tbSearch.Text.Trim())).ToList();
@@ -70,26 +74,64 @@ namespace ChatRoom.Pages
 
         private void lvEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(lvEmployee.SelectedItem != null)
+            if (ChatroomNow != null)
             {
-                var item = lvEmployee.SelectedItem as Employee;
-                EmployeeChatroom chatroom = new EmployeeChatroom();
-                chatroom.IDEmployee = item.ID;
-                chatroom.IDChatroom = ChatroomNow.ID;
-
-                var uniqUser = BDConnection.connection.EmployeeChatroom.Where(x => x.IDChatroom == chatroom.ID && x.IDEmployee == chatroom.IDEmployee).FirstOrDefault();
-                if(uniqUser == null)
+                if (lvEmployee.SelectedItem != null)
                 {
-                    BDConnection.connection.EmployeeChatroom.Add(chatroom);
-                    BDConnection.connection.SaveChanges();
+                    var item = lvEmployee.SelectedItem as Employee;
+                    EmployeeChatroom chatroom = new EmployeeChatroom();
+                    chatroom.IDEmployee = item.ID;
+                    chatroom.IDChatroom = ChatroomNow.ID;
 
-                    NavigationService.Navigate(new ReadingChatPage(ChatroomNow, null));
-                }
-                else
-                {
-                    MessageBox.Show("Этот пользователь уже в чате");
+                    var uniqUser = BDConnection.connection.EmployeeChatroom.Where(x => x.IDChatroom == chatroom.IDChatroom && x.IDEmployee == chatroom.IDEmployee).FirstOrDefault();
+                    if (uniqUser == null)
+                    {
+                        BDConnection.connection.EmployeeChatroom.Add(chatroom);
+                        BDConnection.connection.SaveChanges();
+
+                        NavigationService.Navigate(new ReadingChatPage(ChatroomNow));
+                    }
+                    else
+                    {
+                        MessageBox.Show("Этот пользователь уже в чате");
+                    }
                 }
             }
+            else
+            {
+                if (lvEmployee.SelectedItem != null)
+                {
+                    var item = lvEmployee.SelectedItem as Employee;
+
+                    Employee uniqUser = EmployeesNewChat.Where(x => x.ID == item.ID).FirstOrDefault();
+                    if (uniqUser == null)
+                    {
+                        EmployeesNewChat.Add(item);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Этот пользователь уже добавлен");
+                    }
+                }
+            }
+        }
+
+        private void btnCreateNewChat_Click(object sender, RoutedEventArgs e)
+        {
+            if(EmployeesNewChat.Count != 0)
+            {
+                EmployeesNewChat.Add(AuthorizPage.userExsist);
+                NavigationService.Navigate(new NewTitlePage(EmployeesNewChat, null));
+            }
+            else
+            {
+                MessageBox.Show("Выберите участников чата");
+            }
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new MainChatPage(AuthorizPage.userExsist));
         }
     }
 }

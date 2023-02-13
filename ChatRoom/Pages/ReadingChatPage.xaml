@@ -31,7 +31,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Column="0"
-                  Grid.Row="0" Grid.RowSpan="7">
+                  Grid.Row="0" Grid.RowSpan="6">
             <ListView x:Name="lvEmployee"
                       BorderBrush="Black"
                       BorderThickness="3"
@@ -48,8 +48,14 @@
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollViewer>
-        
 
+        <Button x:Name="btnBack"
+                Content="Back"
+                Grid.Column="0"
+                Grid.Row="6"
+                BorderBrush="Black"
+                BorderThickness="3"
+                Click="btnBack_Click"/>
         <Button x:Name="btnAddUser"
                 Content="Add User"
                 Grid.Column="0"
@@ -62,13 +68,14 @@
                 Grid.Column="0"
                 Grid.Row="8"
                 BorderBrush="Black"
-                BorderThickness="3"/>
+                BorderThickness="3"
+                Click="btnChangeTopic_Click"/>
         <Button x:Name="btnLeaveChatroom"
                 Content="Leave Chatroom"
                 Grid.Column="0"
                 Grid.Row="9"
                 BorderBrush="Black"
-                BorderThickness="3"/>
+                BorderThickness="3" Click="btnLeaveChatroom_Click"/>
 
         <TextBox x:Name="tbChat"
                  Grid.Column="0" Grid.ColumnSpan="3"

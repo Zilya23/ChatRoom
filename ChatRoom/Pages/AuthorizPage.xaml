@@ -40,25 +40,34 @@
                  Grid.Row="1"
                  FontSize="20"
                  VerticalAlignment="Center"
-                 Margin="0, 0, 40, 0"/>
-        <TextBox x:Name="tbPassword"
+                 Margin="0, 0, 40, 0"
+                 BorderBrush="Black"
+                 BorderThickness="3"/>
+        <PasswordBox x:Name="tbPassword"
                  Grid.Column="1"
                  Grid.Row="3"
                  FontSize="20"
                  VerticalAlignment="Center"
-                 Margin="0, 0, 40, 0"/>
+                 Margin="0, 0, 40, 0"
+                 BorderBrush="Black"
+                 BorderThickness="3"/>
         
         <CheckBox x:Name="cbRemember"
                   Content="Remember me"
                   Grid.Column="1"
                   Grid.Row="5"
-                  FontSize="20"/>
+                  FontSize="20"
+                  BorderBrush="Black"
+                BorderThickness="3"
+                  IsChecked="True"/>
         
         <Button x:Name="btnOk"
                 Content="Ok"
                 Grid.Column="0"
                 Grid.Row="7"
                 FontSize="20"
+                BorderBrush="Black"
+                BorderThickness="3"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Width="200"
@@ -72,6 +81,8 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Width="200"
+                BorderBrush="Black"
+                BorderThickness="3"
                 Click="btnCancel_Click"/>
 
 

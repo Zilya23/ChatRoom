@@ -115,15 +115,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ChatRoomPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\EmployeeFinderPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MainChatPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewTitlePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,14 +136,14 @@
     <Compile Include="Pages\AuthorizPage.xaml.cs">
       <DependentUpon>AuthorizPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ChatRoomPage.xaml.cs">
-      <DependentUpon>ChatRoomPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\EmployeeFinderPage.xaml.cs">
       <DependentUpon>EmployeeFinderPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MainChatPage.xaml.cs">
       <DependentUpon>MainChatPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewTitlePage.xaml.cs">
+      <DependentUpon>NewTitlePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ReadingChatPage.xaml.cs">
       <DependentUpon>ReadingChatPage.xaml</DependentUpon>

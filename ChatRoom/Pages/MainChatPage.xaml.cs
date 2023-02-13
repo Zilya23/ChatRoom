@@ -38,6 +38,7 @@ namespace ChatRoom.Pages
 
         private void btnCloseApp_Click(object sender, RoutedEventArgs e)
         {
+            System.Windows.Application.Current.Shutdown();
         }
 
         private void lvChat_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -45,7 +46,26 @@ namespace ChatRoom.Pages
             if(lvChat.SelectedItem != null)
             {
                 var item = lvChat.SelectedItem as Chatroom;
-                NavigationService.Navigate(new ReadingChatPage(item, null));
+
+                EmployeeChatroom userInChat = BDConnection.connection.EmployeeChatroom.Where(x => x.IDChatroom == item.ID
+                && x.IDEmployee == AuthorizPage.userExsist.ID).FirstOrDefault();
+                if(userInChat == null)
+                {
+                    var messUser = MessageBox.Show("You dont be in chat. You won`t enter in chat?", "Attection", MessageBoxButton.YesNo);
+                    if (messUser == MessageBoxResult.Yes)
+                    {
+                        EmployeeChatroom employeeChatroom = new EmployeeChatroom();
+                        employeeChatroom.IDChatroom = item.ID;
+                        employeeChatroom.IDEmployee = AuthorizPage.userExsist.ID;
+                        BDConnection.connection.EmployeeChatroom.Add(employeeChatroom);
+                        BDConnection.connection.SaveChanges();
+                        NavigationService.Navigate(new ReadingChatPage(item));
+                    }
+                }
+                else
+                {
+                    NavigationService.Navigate(new ReadingChatPage(item));
+                }
             }
         }
     }

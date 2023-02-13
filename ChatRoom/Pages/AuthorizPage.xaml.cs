@@ -25,6 +25,8 @@ namespace ChatRoom.Pages
         public AuthorizPage()
         {
             InitializeComponent();
+            tbUsername.Text = Properties.Settings.Default.Login;
+            tbPassword.Password = Properties.Settings.Default.Password;
             (App.Current.MainWindow as MainWindow).Title = Title;
         }
 
@@ -32,10 +34,22 @@ namespace ChatRoom.Pages
         {
             List<Employee> users = new List<Employee>(BDConnection.connection.Employee.ToList());
             string login = tbUsername.Text.Trim();
-            string password = tbPassword.Text.Trim();
+            string password = tbPassword.Password.Trim();
             userExsist = users.Where(user => user.Username == login && user.Password == password).FirstOrDefault();
             if (userExsist != null)
             {
+                if(cbRemember.IsChecked == true)
+                {
+                    Properties.Settings.Default.Password = tbPassword.Password.Trim();
+                    Properties.Settings.Default.Login = tbUsername.Text.Trim();
+                    Properties.Settings.Default.Save();
+                }
+                else
+                {
+                    Properties.Settings.Default.Password = null;
+                    Properties.Settings.Default.Login = null;
+                    Properties.Settings.Default.Save();
+                }
                 NavigationService.Navigate(new MainChatPage(userExsist));
             }
             else
@@ -46,7 +60,7 @@ namespace ChatRoom.Pages
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }
